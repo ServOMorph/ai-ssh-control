@@ -41,7 +41,7 @@ Inclure dans les instructions système le fichier adapté à l'agent :
 
 | Agent | Fichier à utiliser |
 |---|---|
-| Claude Code | `CLAUDE.md` |
+| Claude Code | `.claude/CLAUDE.md` |
 | Codex (OpenAI) | `AGENTS.md` |
 | Cursor, Copilot, autre | system prompt ou `.cursorrules` |
 

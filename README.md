@@ -49,7 +49,7 @@ ssh -i "C:\Users\<user>\.ssh\ma_cle_ed25519" -o StrictHostKeyChecking=no <user>@
 ```
 
 4. Ajouter l'instruction dans le fichier de config de ton agent IA :
-   - Claude Code → placer [CLAUDE.md](CLAUDE.md) à la racine du projet
+   - Claude Code → placer [CLAUDE.md](CLAUDE.md) dans le dossier `.claude/` du projet
    - Codex → placer [AGENTS.md](AGENTS.md) à la racine du projet
 
 ## Licence
