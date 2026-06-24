@@ -27,7 +27,7 @@ Plutôt que de configurer manuellement, donne simplement ce prompt à ton agent 
 Lis le fichier init_connexion.md et suis la procédure pour initialiser la connexion SSH.
 ```
 
-L'agent te guidera étape par étape, testera la connexion, et mettra à jour CLAUDE.md et AGENTS.md automatiquement.
+L'agent te guidera étape par étape, testera la connexion, et créera automatiquement un fichier `.env` avec tes paramètres de connexion.
 
 ---
 
@@ -49,8 +49,8 @@ ssh -i "C:\Users\<user>\.ssh\ma_cle_ed25519" -o StrictHostKeyChecking=no <user>@
 ```
 
 4. Ajouter l'instruction dans le fichier de config de ton agent IA :
-   - Claude Code → copier [CLAUDE.md](CLAUDE.md) dans `.claude/CLAUDE.md` de ton projet
-   - Codex → copier [AGENTS.md](AGENTS.md) à la racine de ton projet
+   - Claude Code → placer [CLAUDE.md](CLAUDE.md) à la racine du projet
+   - Codex → placer [AGENTS.md](AGENTS.md) à la racine du projet
 
 ## Licence
 
