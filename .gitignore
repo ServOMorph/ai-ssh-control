@@ -1,0 +1,21 @@
+# Clés SSH (ne jamais versionner)
+*.pem
+*.key
+id_rsa
+id_ed25519
+ma_cle_ed25519
+
+# Fichiers de config locaux avec infos sensibles (IP, user)
+.env
+config.local.*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+*~
