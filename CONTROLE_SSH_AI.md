@@ -29,17 +29,35 @@ ping <IP_LINUX>
 
 ---
 
+## Initialisation
+
+Avant la première utilisation, lancer la procédure guidée `init_connexion.md` — elle collecte l'IP, l'utilisateur et la clé SSH, teste la connexion, puis crée automatiquement un fichier `.env` (non versionné) à la racine du projet.
+
+---
+
 ## Instruction à donner à l'agent IA
 
-Il suffit d'inclure dans les instructions système (CLAUDE.md, system prompt, .cursorrules, etc.) :
+Inclure dans les instructions système le fichier adapté à l'agent :
+
+| Agent | Fichier à utiliser |
+|---|---|
+| Claude Code | `CLAUDE.md` |
+| Codex (OpenAI) | `AGENTS.md` |
+| Cursor, Copilot, autre | system prompt ou `.cursorrules` |
+
+Ces fichiers indiquent à l'agent de lire `.env` pour récupérer les paramètres de connexion (`SSH_KEY`, `SSH_USER`, `IP_LINUX`) avant chaque commande SSH :
 
 ```
 Quand une tâche concerne le PC Linux, l'exécuter directement via SSH sans demander à l'utilisateur de copier-coller des commandes.
 
+Les paramètres de connexion sont dans le fichier .env à la racine du projet.
+Lire .env avant toute commande SSH pour récupérer SSH_KEY, SSH_USER et IP_LINUX.
+
 Connexion :
-ssh -i "<chemin_clé_privée>" -o StrictHostKeyChecking=no <user>@<IP_LINUX> "commande"
+ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@$IP_LINUX "commande"
 
 Règles :
+- Lire .env pour récupérer les paramètres de connexion
 - Vérifier la connectivité avant d'exécuter
 - Lire le retour de chaque commande avant la suivante
 - Ne pas utiliser de commandes interactives (nano, vim, htop)
@@ -63,13 +81,15 @@ Règles :
 
 ## Commande SSH de référence
 
+Les valeurs réelles sont dans `.env` — les exemples ci-dessous utilisent les variables après lecture de ce fichier.
+
 ```powershell
-ssh -i "C:\Users\<user>\.ssh\ma_cle_ed25519" -o StrictHostKeyChecking=no <user>@<IP_LINUX> "commande"
+ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@$IP_LINUX "commande"
 ```
 
 **Déployer un fichier :**
 ```powershell
-scp -i "C:\Users\<user>\.ssh\ma_cle_ed25519" "C:\chemin\fichier.txt" <user>@<IP_LINUX>:"/chemin/destination/"
+scp -i "$SSH_KEY" "C:\chemin\fichier.txt" $SSH_USER@$IP_LINUX:"/chemin/destination/"
 ```
 
 ---
