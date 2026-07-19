@@ -1,0 +1,40 @@
+# ai-ssh-control
+
+Un protocole léger de délégation d'exécution pour permettre à des agents IA (comme Claude Code, Codex, Cursor) s'exécutant sur Windows d'exécuter des commandes directement sur un système Linux distant via SSH.
+
+## Informations clés
+
+- **Type de projet** : Protocole d'automatisation et de délégation SSH pour IA.
+- **Plateforme source** : Windows (PowerShell / Bash).
+- **Plateforme cible** : Linux (SSH / systemd).
+- **Licence** : MIT (Copyright 2026 ServOMorph).
+- **Zéro dépendance externe** : Utilise uniquement le client SSH natif du système Windows.
+
+## Fichiers de configuration des agents
+
+L'agent lit les identifiants depuis le fichier local `.env` (exclus du contrôle de version Git) contenant :
+- `IP_LINUX` : Adresse IP du PC Linux cible.
+- `SSH_USER` : Nom de l'utilisateur (ex. root).
+- `SSH_KEY` : Chemin absolu vers la clé privée SSH sur Windows.
+
+Les instructions système des agents sont réparties ainsi :
+- **Claude Code** : `.claude/CLAUDE.md` ou `CLAUDE.md` (racine).
+- **Autres agents** (Cursor, Codex, etc.) : `AGENTS.md`.
+
+## Procédure d'initialisation
+
+Le script d'initialisation assistée se trouve dans `init_connexion.md`. L'agent doit le lire et suivre les étapes interactives avec l'utilisateur pour :
+1. Récupérer l'IP du serveur.
+2. Récupérer l'utilisateur.
+3. Repérer la clé privée locale.
+4. Tester le ping.
+5. Tester la connexion SSH.
+6. Écrire le fichier `.env` local.
+
+## Règles d'exécution pour les agents
+
+- Toujours lire `.env` avant d'exécuter une commande.
+- Effectuer un test rapide de connectivité via ping avant l'appel SSH.
+- Ne jamais utiliser de commandes interactives (interdiction d'utiliser nano, vim, etc.).
+- Pour l'édition multi-lignes, privilégier le transfert local vers distant avec `scp` ou l'utilisation d'un bloc `cat << 'EOF'`.
+- Informer l'utilisateur des résultats d'exécution de manière succincte.
