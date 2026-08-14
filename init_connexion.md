@@ -99,11 +99,25 @@ ping <IP_LINUX> -n 1
 
 ### Étape 5 — Test de connexion SSH
 
+Avant le test, demander à l'utilisateur de comparer l'empreinte de la clé d'hôte affichée sur le PC Linux avec celle renvoyée sur Windows :
+
+```
+[WINDOWS - PowerShell] → exécuté par l'agent
+ssh-keyscan -t ed25519 <IP_LINUX> | ssh-keygen -lf -
+```
+
+Ne poursuivre que si l'utilisateur confirme que les empreintes correspondent. À ce moment, ajouter la clé vérifiée à `known_hosts` :
+
+```
+[WINDOWS - PowerShell] → exécuté par l'agent après confirmation
+ssh-keyscan -t ed25519 <IP_LINUX> | Add-Content "$env:USERPROFILE\.ssh\known_hosts"
+```
+
 **→ AGENT : exécuter la commande suivante sur Windows**
 
 ```
 [WINDOWS - PowerShell] → exécuté par l'agent
-ssh -i "<SSH_KEY>" -o StrictHostKeyChecking=no -o ConnectTimeout=5 <SSH_USER>@<IP_LINUX> "echo OK"
+ssh -i "<SSH_KEY>" -o StrictHostKeyChecking=yes -o ConnectTimeout=5 <SSH_USER>@<IP_LINUX> "echo OK"
 ```
 
 **→ AGENT : analyser le résultat :**
@@ -132,19 +146,9 @@ Ce fichier est dans `.gitignore` — il ne sera jamais versionné. `CLAUDE.md` e
 
 ---
 
-### Étape 7 — Mémoriser la configuration
+### Étape 7 — Préserver la confidentialité
 
-**→ AGENT : si tu disposes d'un système de mémoire persistante, enregistrer les informations suivantes pour les prochaines sessions :**
-
-```
-PC Linux   : <IP_LINUX>
-SSH_USER   : <SSH_USER>
-SSH_KEY    : <SSH_KEY>
-Source     : fichier .env (non versionné, à la racine du projet)
-```
-
-> Note : pour Claude Code, écrire ces infos dans `memory/project_ssh_connexion.md`.
-> Pour Codex ou un autre agent sans mémoire de projet, cette étape peut être ignorée — le `.env` suffit.
+**→ AGENT : ne jamais enregistrer les valeurs de `IP_LINUX`, `SSH_USER` ou `SSH_KEY` dans une mémoire persistante, un log, un message ou un commit.** Le fichier `.env` local et ignoré par Git est la seule source de configuration durable.
 
 ---
 
@@ -155,9 +159,9 @@ Source     : fichier .env (non versionné, à la racine du projet)
 ```
 ✅ Connexion SSH configurée avec succès !
 
-  PC Linux    : <IP_LINUX>
-  Utilisateur : <SSH_USER>
-  Clé SSH     : <SSH_KEY>
+  PC Linux    : configuré localement
+  Utilisateur : configuré localement
+  Clé SSH     : configurée localement
 
   .env         ✅ créé (non versionné, valeurs réelles)
   CLAUDE.md / AGENTS.md restent génériques (repo public safe)

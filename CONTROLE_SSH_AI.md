@@ -48,17 +48,18 @@ Inclure dans les instructions système le fichier adapté à l'agent :
 Ces fichiers indiquent à l'agent de lire `.env` pour récupérer les paramètres de connexion (`SSH_KEY`, `SSH_USER`, `IP_LINUX`) avant chaque commande SSH :
 
 ```
-Quand une tâche concerne le PC Linux, l'exécuter directement via SSH sans demander à l'utilisateur de copier-coller des commandes.
+Quand une tâche concerne le PC Linux, l'exécuter via SSH sans demander à l'utilisateur de copier-coller des commandes. Demander une confirmation explicite avant toute action modificative, notamment un déploiement, une modification de fichier ou un redémarrage de service.
 
 Les paramètres de connexion sont dans le fichier .env à la racine du projet.
-Lire .env avant toute commande SSH pour récupérer SSH_KEY, SSH_USER et IP_LINUX.
+Lire .env avant toute commande SSH pour récupérer SSH_KEY, SSH_USER et IP_LINUX. Vérifier que la clé de l'hôte Linux a été contrôlée et enregistrée dans known_hosts ; ne jamais désactiver cette vérification.
 
 Connexion :
-ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@$IP_LINUX "commande"
+ssh -i "$SSH_KEY" -o StrictHostKeyChecking=yes $SSH_USER@$IP_LINUX "commande"
 
 Règles :
 - Lire .env pour récupérer les paramètres de connexion
 - Vérifier la connectivité avant d'exécuter
+- Demander confirmation avant toute commande qui modifie le système distant
 - Lire le retour de chaque commande avant la suivante
 - Ne pas utiliser de commandes interactives (nano, vim, htop)
 - Pour les fichiers multi-lignes : utiliser cat > fichier << 'EOF' ou écrire localement puis scp
@@ -68,6 +69,8 @@ Règles :
 ---
 
 ## Ce que l'agent peut faire via SSH
+
+Les actions qui modifient le système distant exigent une confirmation explicite de l'utilisateur.
 
 - Lire des fichiers de config sur le Linux
 - Modifier des services systemd (`daemon-reload`, `restart`, `status`)
@@ -84,7 +87,7 @@ Règles :
 Les valeurs réelles sont dans `.env` — les exemples ci-dessous utilisent les variables après lecture de ce fichier.
 
 ```powershell
-ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@$IP_LINUX "commande"
+ssh -i "$SSH_KEY" -o StrictHostKeyChecking=yes $SSH_USER@$IP_LINUX "commande"
 ```
 
 **Déployer un fichier :**

@@ -27,6 +27,7 @@ Le protocole garantit un fonctionnement fluide et sans état :
 - [CLAUDE.md](CLAUDE.md) — Fichier d'instructions spécifiques pour Claude Code (à copier dans `.claude/CLAUDE.md`).
 - [AGENTS.md](AGENTS.md) — Fichier d'instructions génériques pour les agents IA tiers (Codex, Cursor, etc.).
 - [init_connexion.md](init_connexion.md) — Procédure interactive guidée pour tester et initialiser la connexion SSH.
+- [llms.txt](llms.txt) — Synthèse du projet, de son architecture et de ses points d'entrée pour les agents IA.
 
 ## Prérequis
 
@@ -58,10 +59,12 @@ ssh-keygen -t ed25519 -f C:\Users\<user>\.ssh\ma_cle_ed25519
 type C:\Users\<user>\.ssh\ma_cle_ed25519.pub | ssh <user>@<IP_LINUX> "cat >> ~/.ssh/authorized_keys"
 ```
 
-3. Tester la connexion :
+3. Vérifier l'empreinte de l'hôte Linux avant de l'ajouter au fichier `known_hosts`, puis tester la connexion :
 ```powershell
-ssh -i "C:\Users\<user>\.ssh\ma_cle_ed25519" -o StrictHostKeyChecking=no <user>@<IP_LINUX> "echo OK"
+ssh -i "C:\Users\<user>\.ssh\ma_cle_ed25519" -o StrictHostKeyChecking=yes <user>@<IP_LINUX> "echo OK"
 ```
+
+Ne pas désactiver la vérification de la clé d'hôte : comparer d'abord son empreinte à celle affichée sur le PC Linux, puis l'enregistrer localement dans `known_hosts`.
 
 4. Ajouter les instructions système dans la configuration de votre agent :
    - **Claude Code** : copier [CLAUDE.md](CLAUDE.md) sous `.claude/CLAUDE.md`.
